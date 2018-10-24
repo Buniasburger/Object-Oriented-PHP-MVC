@@ -14,9 +14,9 @@ class Core
 
     public function __construct()
     {
-       $urlParts = $this->getUrl();
-       // Look in controllers for first part
-        if(file_exists(__DIR__ . '/../controllers/' . ucwords($urlParts[0]) . '.php')) {
+        $urlParts = $this->getUrl();
+        // Look in controllers for first part
+        if (file_exists(__DIR__ . '/../controllers/' . ucwords($urlParts[0]) . '.php')) {
             // If exists, set as controller
             $this->currentController = ucwords($urlParts[0]);
             // Unset 0 index
@@ -28,6 +28,20 @@ class Core
 
         // Instantiate controller class
         $this->currentController = new $this->currentController;
+
+        // Check for second part of url
+        if (!empty($urlParts[1])) {
+            $method = $urlParts[1];
+            // Check if method exists in controller
+            if (method_exists($this->currentController, $method)) {
+                $this->currentMethod = $method;
+            }
+            unset($urlParts[1]);
+        }
+
+        // Set params
+        $this->params = $urlParts ? array_values($urlParts) : [];
+        call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
     }
 
     public function getUrl()
