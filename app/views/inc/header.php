@@ -13,4 +13,5 @@
     <link rel="stylesheet" href="<?php echo URLROOT . 'css/style.css' ?>"/>
 </head>
 <body>
+<?php include APPROOT . '/views/inc/navbar.php' ?>
 <div class="container">
