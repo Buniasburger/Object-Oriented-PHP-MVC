@@ -47,7 +47,7 @@ class Core
     public function getUrl()
     {
         if (!empty($_GET['url'])) {
-            $url = filter_var(rtrim($_GET['url'], '/'), FILTER_SANITIZE_URL);
+            $url = filter_var(trim($_GET['url'], '/'), FILTER_SANITIZE_URL);
             return explode('/', $url);
         }
     }

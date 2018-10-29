@@ -3,12 +3,12 @@
 // App Root
 define('APPROOT', dirname(__FILE__ , 2));
 // URL Root
-define('URLROOT', 'url');
+define('URLROOT', 'http://share.posts');
 // Site Name
-define('SITENAME', 'sitename');
+define('SITENAME', 'SharePosts');
 
 // Database Credentials
-const DB_HOST = 'host';
-const DB_USER = 'user';
-const DB_PASS = 'pass';
-const DB_NAME = 'dbname';
+const DB_HOST = '127.0.0.1';
+const DB_USER = 'shareposts';
+const DB_PASS = 'secret';
+const DB_NAME = 'shareposts';
