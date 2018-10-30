@@ -14,7 +14,7 @@ class User
     {
         $this->db->query('select * from users where email = :email');
         $this->db->bind('email', $email);
-        $row = $this->db->single();
+        $this->db->single();
 
         // Check row
         return $this->db->rowCount() > 0;
@@ -44,5 +44,13 @@ class User
         }
 
         return $row;
+    }
+
+    // Get user by id
+    public function find($id)
+    {
+        $this->db->query('select * from users where id = :id');
+        $this->db->bind('id', $id);
+        return $this->db->single();
     }
 }

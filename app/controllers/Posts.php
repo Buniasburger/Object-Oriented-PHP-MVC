@@ -9,6 +9,7 @@ class Posts extends Controller
         }
 
         $this->postModel = $this->model('Post');
+        $this->userModel = $this->model('User');
     }
     public function index()
     {
@@ -61,5 +62,18 @@ class Posts extends Controller
             ];
             $this->view('/posts/add', $data);
         }
+    }
+
+    public function show($id)
+    {
+        $post = $this->postModel->find($id);
+        if(empty($post)) {
+            redirect('/posts');
+        }
+        $data = [
+            'post' => $post,
+            'user' => $this->userModel->find($post->user_id)
+        ];
+        $this->view('/posts/show', $data);
     }
 }

@@ -32,4 +32,11 @@ class Post
 
         return $this->db->execute();
     }
+
+    public function find($id)
+    {
+        $this->db->query('select * from posts where id = :id');
+        $this->db->bind('id', $id);
+        return $this->db->single();
+    }
 }
