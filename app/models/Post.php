@@ -1,6 +1,7 @@
 <?php
 
-class Post {
+class Post
+{
     private $db;
 
     public function __construct()
@@ -10,7 +11,14 @@ class Post {
 
     public function getPosts()
     {
-        $this->db->query('select * from posts');
+        $this->db->query('SELECT *, posts.id AS postId,
+                                                     posts.created_at as created,
+                                                     users.id 
+                                                     AS userId 
+                                                     FROM posts 
+                                                     INNER JOIN users
+                                                     ON posts.user_id = users.id
+                                                     ORDER BY posts.created_at DESC');
         return $this->db->resultSet();
     }
 }
