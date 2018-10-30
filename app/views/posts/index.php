@@ -15,6 +15,8 @@
             <div class="bg-light p-2 mb-3">
                 Written by <?php echo $post->name ?> on <?php echo $post->created ?>
             </div>
+            <p class="card-text"><?php echo $post->body ?></p>
+            <a href="<?php echo URLROOT ?>/posts/show/<?php $post->postId ?>" class="btn btn-dark">More</a>
         </div>
     <?php endforeach ?>
 <?php require_once APPROOT . '/views/inc/footer.php' ?>
