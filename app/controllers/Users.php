@@ -66,10 +66,12 @@ class Users extends Controller
                 if(!$this->userModel->register($data)) {
                   die('Something went wrong!');
                 }
-
+                flash('You are registered and can log in');
                 redirect('/users/login');
+                exit();
             }
             // Load view
+            flash('Something went wrong!', 'alert alert-danger');
             $this->view('users/register', $data);
         } else {
             // Init data
