@@ -64,6 +64,58 @@ class Posts extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'title' => trim($_POST['title']),
+                'body' => trim($_POST['body']),
+                'id' => $id,
+                'title_error' => '',
+                'body_error' => ''
+            ];
+
+            if (empty($data['title'])) {
+                $data['title_error'] = 'Please enter title';
+            }
+
+            if (empty($data['body'])) {
+                $data['body_error'] = 'Please enter body';
+            }
+
+            // Make sure errors are empty
+            if(empty($data['title_error']) && empty($data['body_error'])) {
+                // Validated
+
+                if(!$this->postModel->updatePost($data)) {
+                    die('Something went wrong');
+                }
+                flash('Post Updated');
+                redirect('/posts');
+                exit();
+            }
+            $this->view('posts/edit', $data);
+        } else {
+            // Get existing post frm model
+            $post = $this->postModel->find($id);
+
+            // Check for owner
+            if($post->user_id != $_SESSION['user_id']) {
+                redirect('/posts');
+            }
+            $data = [
+                'id' => $id,
+                'title' => $post->title,
+                'body' => $post->body,
+                'title_error' => '',
+                'body_error' => '',
+
+            ];
+            $this->view('/posts/edit', $data);
+        }
+    }
+
     public function show($id)
     {
         $post = $this->postModel->find($id);
