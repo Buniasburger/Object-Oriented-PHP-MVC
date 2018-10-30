@@ -71,7 +71,7 @@ class Users extends Controller
                 exit();
             }
             // Load view
-            flash('Something went wrong!', 'alert alert-danger');
+//            flash('Something went wrong!', 'alert alert-danger');
             $this->view('users/register', $data);
         } else {
             // Init data
@@ -115,10 +115,24 @@ class Users extends Controller
                 $data['password_error'] = 'Please enter password';
             }
 
+            if($this->userModel->findUserByEmail($data['email'])) {
+                // User found
+            } else {
+                $data['email_error'] = 'No user found';
+            }
+
             // Make sure errors are empty
             if(empty($data['email_error']) && empty($data['password_error'])) {
                 // Validated
-                die('Success');
+                // Check and set logged in user
+                $user = $this->userModel->login($data['email'], $data['password']);
+
+                if($user) {
+                    // Create Session
+                    $this->createUserSession($user);
+                } else {
+                    flash('Password or email incorrect', 'alert alert-danger');
+                }
             }
             // Load view
             $this->view('users/login', $data);
@@ -134,5 +148,13 @@ class Users extends Controller
             // Load view
             $this->view('users/login', $data);
         }
+    }
+
+    public function createUserSession($user)
+    {
+        $_SESSION['user_id'] = $user->id;
+        $_SESSION['user_email'] = $user->email;
+        $_SESSION['user_name'] = $user->name;
+        redirect('/pages/index');
     }
 }

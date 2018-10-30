@@ -30,4 +30,19 @@ class User
 
         return $this->db->execute();
     }
+
+    // Login User
+    public function login($email, $password)
+    {
+        $this->db->query('select * from users where email = :email');
+        $this->db->bind(':email', $email);
+
+        $row = $this->db->single();
+
+        if(!password_verify($password, $row->password)) {
+            return false;
+        }
+
+        return $row;
+    }
 }
