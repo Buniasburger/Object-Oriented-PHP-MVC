@@ -11,3 +11,6 @@ require_once __DIR__ . '/helpers/session_helper.php';
 spl_autoload_register(function($class) {
     require_once __DIR__ . '/libraries/' . $class . '.php';
 });
+
+// Load Pages controller
+require_once __DIR__ . '/controllers/Pages.php';
