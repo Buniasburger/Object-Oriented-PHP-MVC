@@ -4,13 +4,14 @@ class Posts extends Controller
 {
     public function __construct()
     {
-        if(!isLoggedIn()) {
+        if (!isLoggedIn()) {
             redirect('/users/login');
         }
 
         $this->postModel = $this->model('Post');
         $this->userModel = $this->model('User');
     }
+
     public function index()
     {
         $posts = $this->postModel->getPosts();
@@ -41,10 +42,10 @@ class Posts extends Controller
             }
 
             // Make sure errors are empty
-            if(empty($data['title_error']) && empty($data['body_error'])) {
+            if (empty($data['title_error']) && empty($data['body_error'])) {
                 // Validated
 
-                if(!$this->postModel->addPost($data)) {
+                if (!$this->postModel->addPost($data)) {
                     die('Something went wrong');
                 }
                 flash('Post added');
@@ -85,10 +86,10 @@ class Posts extends Controller
             }
 
             // Make sure errors are empty
-            if(empty($data['title_error']) && empty($data['body_error'])) {
+            if (empty($data['title_error']) && empty($data['body_error'])) {
                 // Validated
 
-                if(!$this->postModel->updatePost($data)) {
+                if (!$this->postModel->updatePost($data)) {
                     die('Something went wrong');
                 }
                 flash('Post Updated');
@@ -101,7 +102,7 @@ class Posts extends Controller
             $post = $this->postModel->find($id);
 
             // Check for owner
-            if($post->user_id != $_SESSION['user_id']) {
+            if ($post->user_id != $_SESSION['user_id']) {
                 redirect('/posts');
             }
             $data = [
@@ -119,7 +120,7 @@ class Posts extends Controller
     public function show($id)
     {
         $post = $this->postModel->find($id);
-        if(empty($post)) {
+        if (empty($post)) {
             redirect('/posts');
         }
         $data = [
@@ -127,5 +128,18 @@ class Posts extends Controller
             'user' => $this->userModel->find($post->user_id)
         ];
         $this->view('/posts/show', $data);
+    }
+
+    public function delete($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (!$this->postModel->delete($id)) {
+                die('Something went wrong');
+            }
+
+            flash('Post Removed');
+        }
+
+        redirect('/posts');
     }
 }

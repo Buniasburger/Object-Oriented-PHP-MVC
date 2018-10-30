@@ -21,11 +21,8 @@
 
         </div>
         <div class="row">
-            <div class="col-6">
+            <div class="col-12">
                 <input type="submit" value="Edit Post" class="btn btn-success btn-block"/>
-            </div>
-            <div class="col-6">
-                <a href="<?php echo URLROOT ?>/users/register" class="btn btn-light btn-block">No account? Register</a>
             </div>
         </div>
     </form>
