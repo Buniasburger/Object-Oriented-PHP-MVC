@@ -14,3 +14,8 @@ function flash($message = '', $class = 'alert alert-success')
         unset($_SESSION['message']);
     }
 }
+
+function isLoggedIn()
+{
+    return isset($_SESSION['user_id']);
+}
